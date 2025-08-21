@@ -2,7 +2,7 @@ import { Calendar, MapPin, PenBox, Verified } from "lucide-react";
 import moment from "moment";
 import React from "react";
 
-const UserProfileInfo = ({ user, post, profileId, setShowEdit }) => {
+const UserProfileInfo = ({ user, posts, profileId, setShowEdit }) => {
   return (
     <div className="relative py-4 px-6 md:px-8 bg-white">
       <div className="flex flex-col md:flex-row items-start gap-6">
@@ -65,7 +65,7 @@ const UserProfileInfo = ({ user, post, profileId, setShowEdit }) => {
           <div className="flex items-center gap-5 mt-6 border-t border-gray-200 pt-4">
             <div>
               <span className="sm:text-xl font-bold text-gray-900">
-                {user.posts.length}
+                {posts.length}
               </span>
               <span className="text-xs sm:text-sm text-gray-500 ml-1.5">
                 Posts

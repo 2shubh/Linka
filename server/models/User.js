@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
         unique:true,
     },
     bio:{
-        type:text,
+        type:String,
         default:'Hey there! I am using Linka.'
     },
     profile_picture:{

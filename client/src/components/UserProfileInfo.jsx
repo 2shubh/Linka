@@ -26,14 +26,15 @@ const UserProfileInfo = ({ user, posts, profileId, setShowEdit }) => {
                 <Verified className="w-6 h-6 text-blue-500" />
               </div>
               <p className="text-gray-600">
-                {user.username ? `@{user.username}` : "Add a username"}
+                {user.username ? `@${user.username}` : "Add a username"}
               </p>
             </div>
 
             {/* if user is not on others profile that means he is opening his profile so we will 
                     give edit button */}
 
-            {!profileId && (
+            { !profileId ||profileId === user._id && (
+              
               <button
                 onClick={() => setShowEdit(true)}
                 className="flex items-center cursor-pointer gap-2 border border-gray-300
@@ -45,7 +46,7 @@ const UserProfileInfo = ({ user, posts, profileId, setShowEdit }) => {
               </button>
             )}
           </div>
-          <p className="text-grat-700 text-sm max-w-md mt-4">{user.bio}</p>
+          <p className="text-gray-700 text-sm max-w-md mt-4">{user.bio}</p>
           <div
             className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm
                 text-gray-500 mt-4 "

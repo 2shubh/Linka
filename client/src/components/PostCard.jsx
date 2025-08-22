@@ -53,7 +53,7 @@ const PostCard = ({post}) => {
       text-sm pt-2 border-t border-gray-300'>
         <div className='flex items-center gap-1'>
             <Heart className={` w-4 h-4 cursor-pointer ${likes.includes(currentUser._id) && 'text-red-500 fill-red-500'}`}
-             onclick={handleLike}/>
+             onClick={handleLike}/>
             <span>{likes.length}</span>
         </div>
          <div className='flex items-center gap-1'>

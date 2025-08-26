@@ -3,6 +3,13 @@ import moment from "moment";
 import React from "react";
 
 const UserProfileInfo = ({ user, posts, profileId, setShowEdit }) => {
+
+  //logss
+  console.log("profileId:", profileId, "Type:", typeof profileId);
+console.log("user._id:", user._id, "Type:", typeof user._id);
+console.log("Comparison:", profileId === user._id);
+console.log("String Comparison:", String(profileId) === String(user._id));
+ 
   return (
     <div className="relative py-4 px-6 md:px-8 bg-white">
       <div className="flex flex-col md:flex-row items-start gap-6">
@@ -33,7 +40,7 @@ const UserProfileInfo = ({ user, posts, profileId, setShowEdit }) => {
             {/* if user is not on others profile that means he is opening his profile so we will 
                     give edit button */}
 
-            { !profileId ||profileId === user._id && (
+            { (!profileId || profileId === user._id) && (
               
               <button
                 onClick={() => setShowEdit(true)}

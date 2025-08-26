@@ -3,6 +3,7 @@ import { getChatMessages, sendMessage, sseController } from '../controllers/Mess
 import { upload } from '../configs/multer.js';
 import { protect } from '../middleware/auth.js';
 
+
 const messageRouter = express.Router();
 
 messageRouter.get('/:userId',sseController);

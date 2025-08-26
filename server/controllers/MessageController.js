@@ -16,11 +16,14 @@ export const sseController = (req,res) =>{
     //Set SSE headers
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control','no-cache');
-    res.setHeader('Connection','keeo-alive');
+    res.setHeader('Connection','keep-alive');
     res.setHeader('Access-Control-Allow-Origin','*');
 
     //Add the client's response object to the connections object
     connections[userId] = res
+
+     // Log connected users
+    console.log('Connected users:', Object.keys(connections));
 
     //Send an initial event to the client
       res.write('log : Connected to SSE stream\n\n');
@@ -31,6 +34,9 @@ export const sseController = (req,res) =>{
         delete connections[userId];
         console.log('Client disconnected');
       })
+
+       // Log connected users
+    console.log('Connected users:', Object.keys(connections));
 
 
 }
@@ -76,7 +82,7 @@ export const sendMessage = async (req,res) =>{
             message
         })
 
-        //Send message to to_user_idusing sse
+        //Send message to to_user_id using sse
 
         const messageWithUserData = await Message.findById(message._id).
         populate('from_user_id');
@@ -128,8 +134,8 @@ export const getChatMessages = async (req,res)=>{
 export const getUserRecentMessages = async (req,res)=>{
     try{
         const {userId} = req.auth();
-        const messages = await Message.find({to_user_id:userId}.populate
-        ('from_user_id to_user_id')).sort({createdAt:-1})
+        const messages = await Message.find({to_user_id:userId})
+        .populate('from_user_id to_user_id').sort({createdAt:-1})
 
         res.json({
             success:true,

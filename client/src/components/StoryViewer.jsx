@@ -27,6 +27,7 @@ const StoryViewer = ({viewStory,setViewStory}) => {
         }, duration);
 
     }
+
         return ()=>{
 
             clearTimeout(timer);
@@ -43,6 +44,8 @@ const StoryViewer = ({viewStory,setViewStory}) => {
 
 
     const renderContent = ()=>{
+        //logs
+        console.log("Content type",viewStory.media_type)
         switch (viewStory.media_type) {
             case 'image':
                   return (
@@ -66,6 +69,17 @@ const StoryViewer = ({viewStory,setViewStory}) => {
                 return  null;
         }
     }
+
+
+     //logs
+    useEffect(() => {
+  console.log("📖 Viewing Story:", viewStory);
+  console.log("Media type:", viewStory.media_type);
+  console.log("Media URL:", viewStory.media_url);
+  console.log("Content/Text:", viewStory.content);
+  console.log("Background Color:", viewStory.background_color);
+  console.log("User Info:", viewStory.user);
+}, [viewStory])
   return (
     <div className='fixed inset-0 h-screen bg-black bg-opacity-90
     z-110 flex items-center justify-center'

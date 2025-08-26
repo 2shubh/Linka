@@ -20,7 +20,7 @@ userRouter.post('/connect' , protect ,sendConnectionRequest);
 
 userRouter.post('/accept' , protect ,acceptConnectionRequest);
 
-userRouter.get('/connection' , protect ,getUserConnections);
+userRouter.get('/connections' , protect ,getUserConnections);
 
 userRouter.post('/profiles',getUserProfiles);
 

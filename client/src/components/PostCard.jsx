@@ -3,20 +3,45 @@ import React, { useState } from 'react'
 import moment from 'moment'
 import { dummyUserData } from '../assets/assets';
 import { useNavigate } from 'react-router-dom';
-
+import { useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
+import api from '../api/axios';
+import { useAuth } from '@clerk/clerk-react';
 const PostCard = ({post}) => {
-
+    
+    const {getToken} = useAuth()
     const [likes ,setLikes] = useState(post.likes_count);
-    const currentUser=dummyUserData
+    const currentUser = useSelector((state)=>state.user.value);
 
     const navigate = useNavigate();
 
     const handleLike = async ()=>{
+      try{
+        const {data} = await api.post('/api/post/like' , {postId:post._id},
+          {headers: {Authorization : `Bearer ${await getToken()}`}}
+        )
+        if(data.success){
+          toast.success(data.message)
+          setLikes(prev=>{
+            if(prev.includes(currentUser._id)){
+              return prev.filter(id => id!=currentUser._id)
+            }else{
+              return [...prev,currentUser._id]
+            }
+          })
+        }else{
+          toast(data.message)
+        }
+
+      }catch(error){
+        toast.error(error.message)
+
+      }
 
     }
 
-    const postWithHashtags=post.content.replace(/(#\w+)/g,
-        '<span class="text-indigo-600">$1<span>')
+    const postWithHashtags=post.content?.replace(/(#\w+)/g,
+        '<span class="text-indigo-600">$1</span>')
   return (
     <div className='bg-white rounded-xl shadow-y-4 w-full max-w-2xl '> 
       {/* User Info */}
@@ -29,7 +54,7 @@ const PostCard = ({post}) => {
                 <BadgeCheck className='w-4 h-4 text-blue-500'/>
             </div>
             <div className='text-gray-500 text-sm'>@{post.user.username} 
-                • {moment(post.createdAt) .fromNow()} </div>
+                 • {moment(post.createdAt) .fromNow()} </div>
         </div>
       </div>
 

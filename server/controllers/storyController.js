@@ -32,6 +32,7 @@ export const addStory = async (req,res) =>{
                 user:userId,
                 content,
                 media_url,
+                media_type,
                 background_color
             })
 
@@ -40,7 +41,9 @@ export const addStory = async (req,res) =>{
                 name:'app/story.delete',
                 data:{story:story._id}
             })
-        res.json({succes:true,message:"Story reated Successfully"})
+        res.json({success:true,message:"Story created Successfully",
+        
+        })
         
     }catch(error){
         console.log(error);
@@ -68,7 +71,7 @@ export const getUserStory = async (req,res) =>{
         .sort({createdAt:-1});
     
          res.json({
-            succes:true,
+            success:true,
             stories,
          })
 

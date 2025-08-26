@@ -131,11 +131,11 @@ export const discoverUsers = async (req, res) => {
       ],
     });
 
-    const filtereduUsers = allUsers.filter((user) => user._id !== userId);
+    const filteredUsers = allUsers.filter((user) => user._id !== userId);
 
     res.json({
       success: true,
-      filtereduUsers,
+      filteredUsers,
     });
   } catch (error) {
     console.log(error);
@@ -301,7 +301,7 @@ export const getUserConnections = async (req, res) => {
     ).map((conn) => conn.from_user_id);
 
     res.json({
-      status: true,
+      success: true,
       connections,
       followers,
       following,
@@ -330,22 +330,23 @@ export const acceptConnectionRequest = async (req, res) => {
     });
 
     if (!connection) {
-      res.json({
+      return res.json({
         success: false,
         message: "You dont have any request",
       });
     }
 
-      const user = await User.findById(id);
-      user.connections.push(id);
-      await user.save();
+      const fromUser = await User.findById(id);
+      const toUser = await User.findById(userId);
 
-      const toUser = await User.findById(id);
-      toUser.connections.push(userId);
+      fromUser.connections.push(userId);
+      await fromUser.save();
+
+      toUser.connections.push(id);
       await toUser.save();
 
-      Connection.status = "accepted";
-      await Connection.save();
+      connection.status = "accepted";
+      await connection.save();
 
       res.json({
         success: true,

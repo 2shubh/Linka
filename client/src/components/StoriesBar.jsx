@@ -4,15 +4,39 @@ import { Plus } from 'lucide-react';
 import moment from 'moment'
 import StoryModal from './StoryModal';
 import StoryViewer from './StoryViewer';
+import { useAuth } from '@clerk/clerk-react';
+import api from '../api/axios';
+import toast from 'react-hot-toast';
+
 
 const StoriesBar = () => {
+
+
+    const {getToken} = useAuth()
 
     const [stories,setStories] = useState([]);
         const [showModal,setShowModal] = useState(false);
         const [viewStory, setViewStory] =useState(null);
 
     const fetchStories = async ()=>{
-        setStories(dummyStoriesData);
+       try{
+        const token=await getToken();
+        const {data} = await api.get('/api/story/get', {
+            headers:{Authorization: `Bearer ${token}`}
+        })
+
+        //logs
+                      console.log("API stories:", data.stories);
+      if(data.success){
+        setStories(data.stories)
+
+      }else{
+        toast(data.message)
+      }
+
+       }catch(error){
+          toast.error(error.message)
+       }
     }
 
     useEffect(()=>{
@@ -47,7 +71,10 @@ const StoriesBar = () => {
             {
                 stories.map((story,index)=>(
 
-                    <div onClick={()=>setViewStory(story)} key={index} className={`relative rounded-lg shadow
+                    <div onClick={()=>{
+                      console.log("✅ Selected Story:", story); // Story object check
+                        setViewStory(story)}}
+                         key={index} className={`relative rounded-lg shadow
                     min-w-30 max-w-30 max-h-40 cursor-pointer hover:shadow-lg
                     transition-all duration-200 bg-gradient-to-b from-indigo-500
                     to-purple-600 hover:from-indigo-700 hover:to-purple-800

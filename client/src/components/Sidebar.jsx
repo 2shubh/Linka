@@ -24,7 +24,7 @@ const Sidebar = ({ sidebarOpen, setsidebarOpen }) => {
       <div className="w-full">
         <img
           onClick={() => navigate("/")}
-          src={assets.logo}
+          src={assets.logo1}
           className="w-26 ml-7 my-2"
         />
         <hr className="border-gray-300 mb-8" />
